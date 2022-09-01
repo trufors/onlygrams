@@ -8,6 +8,11 @@ interface PromoteState {
   linkOnlyfans: string | undefined;
   mail: string | undefined;
   money: string | null;
+  payment: string | null;
+  paymentSale: string | null;
+  days: string | null;
+  info: string | null;
+  descr: string | null;
 }
 
 // Define the initial state using that type
@@ -15,6 +20,11 @@ const initialState: PromoteState = {
   linkOnlyfans: undefined,
   mail: undefined,
   money: null,
+  payment: null,
+  paymentSale: null,
+  days: null,
+  info: null,
+  descr: null,
 };
 
 export const promoteSlicer = createSlice({
@@ -32,20 +42,17 @@ export const promoteSlicer = createSlice({
     setMoney(state, action: PayloadAction<string>) {
       state.money = action.payload;
     },
+    setOffer(state, action: PayloadAction<string[]>) {
+      state.payment = action.payload[0];
+      state.paymentSale = action.payload[1];
+      state.days = action.payload[2];
+      state.info = action.payload[3];
+      state.descr = action.payload[4];
+    },
   },
   extraReducers: {},
 });
 
-export const { setLinkOnlyfans, setMail, setMoney } = promoteSlicer.actions;
+export const { setLinkOnlyfans, setMail, setMoney, setOffer } = promoteSlicer.actions;
 
 export default promoteSlicer.reducer;
-// export const fetchGirlsItems = createAsyncThunk('fetch/fetchGirlsItems', async (_, thunkAPI) => {
-//   try {
-//     const response = await axios.get<GirlItem[]>(
-//       `https://62ebbb5255d2bd170e74e421.mockapi.io/items`,
-//     );
-//     return response.data;
-//   } catch (e) {
-//     return thunkAPI.rejectWithValue('не удалось получить телочек');
-//   }
-// });

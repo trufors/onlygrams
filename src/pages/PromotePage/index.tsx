@@ -6,31 +6,6 @@ import { setLinkOnlyfans, setMail } from '../../redux/slices/promoteSlicer';
 
 const PromotePage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { mail, linkOnlyfans } = useAppSelector((state) => state.promote);
-  const inputLink = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const enteredName = event.target.value;
-    dispatch(setLinkOnlyfans(enteredName));
-  };
-  const inputMail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const enteredName = event.target.value;
-    dispatch(setMail(enteredName));
-  };
-  const useInput = (initialValue: string) => {
-    const [value, setValue] = React.useState<string>(initialValue);
-    const [dirty, setDirty] = React.useState<boolean>(false);
-    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setValue(event.target.value);
-    };
-    const onBlur = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setDirty(true);
-    };
-    return {
-      value,
-      onBlur,
-      onChange,
-    };
-  };
-  const email = useInput('');
 
   return (
     <div>
@@ -44,9 +19,6 @@ const PromotePage: React.FC = () => {
             <form>
               <div className="form-one__line">
                 <input
-                  onChange={(e) => email.onChange(e)}
-                  onBlur={(e) => email.onBlur(e)}
-                  value={email.value}
                   id="profile"
                   type="text"
                   className="form-one__input form-one__input_set "
@@ -79,7 +51,15 @@ const PromotePage: React.FC = () => {
                   id="email"
                   type="email"
                   className="form-one__input form-one__input_set "
-                  placeholder="E-mail"
+                  placeholder="TikTok"
+                />
+              </div>
+              <div className="form-one__line">
+                <input
+                  id="text"
+                  type="text"
+                  className="form-one__input form-one__input_set "
+                  placeholder="Instagram"
                 />
               </div>
               <div className="form-one__line">
@@ -87,31 +67,7 @@ const PromotePage: React.FC = () => {
                   id="email"
                   type="email"
                   className="form-one__input form-one__input_set "
-                  placeholder="E-mail"
-                />
-              </div>
-              <div className="form-one__line">
-                <input
-                  id="email"
-                  type="email"
-                  className="form-one__input form-one__input_set "
-                  placeholder="E-mail"
-                />
-              </div>
-              <div className="form-one__line">
-                <input
-                  id="email"
-                  type="email"
-                  className="form-one__input form-one__input_set "
-                  placeholder="E-mail"
-                />
-              </div>
-              <div className="form-one__line">
-                <input
-                  id="email"
-                  type="email"
-                  className="form-one__input form-one__input_set "
-                  placeholder="E-mail"
+                  placeholder="Your description"
                 />
               </div>
               <Link to="/offers">

@@ -1,8 +1,12 @@
 import React from 'react';
 import ReviewList from '../../common/components/ReviewList';
 import { Link } from 'react-router-dom';
+import { useAppDispatch } from '../../hooks/store';
+import { setOffer } from '../../redux/slices/promoteSlicer';
 
 const OffersPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+
   return (
     <div>
       {/* <div className="promoting-account">
@@ -43,6 +47,17 @@ const OffersPage: React.FC = () => {
                   <div className="promoting-tariff-item__old-price">$349.00</div>
                   <div className="promoting-tariff-item__price">FREE</div>
                   <Link
+                    onClick={(e) => {
+                      dispatch(
+                        setOffer([
+                          '$349.00',
+                          'FREE',
+                          '5-day promo',
+                          'Your profile will be promoted for 5 days',
+                          '300.000 fans will see your advertisement',
+                        ]),
+                      );
+                    }}
                     to="/payment"
                     className="promoting-tariff-item__btn btn btn-one btn-full-width">
                     Checkout & start promotion
@@ -82,6 +97,17 @@ const OffersPage: React.FC = () => {
                   <div className="promoting-tariff-item__old-price">$899.00</div>
                   <div className="promoting-tariff-item__price">$599.00</div>
                   <Link
+                    onClick={(e) => {
+                      dispatch(
+                        setOffer([
+                          '$899.00',
+                          '$599.00',
+                          '15-day promo',
+                          'Your profile will be promoted for 15 days',
+                          '900.000 fans will see your advertisement',
+                        ]),
+                      );
+                    }}
                     to="/payment"
                     className="promoting-tariff-item__btn btn btn-one btn-full-width">
                     Checkout & start promotion
@@ -129,6 +155,17 @@ const OffersPage: React.FC = () => {
                   <div className="promoting-tariff-item__old-price">$1749.00</div>
                   <div className="promoting-tariff-item__price">$1199.00</div>
                   <Link
+                    onClick={(e) => {
+                      dispatch(
+                        setOffer([
+                          '$1749.00',
+                          '$1199.00',
+                          '30-day promo',
+                          'Your profile will be promoted for 30 days',
+                          '900.000 fans will see your advertisement',
+                        ]),
+                      );
+                    }}
                     to="/payment"
                     className="promoting-tariff-item__btn btn btn-one btn-full-width">
                     Checkout & start promotion
