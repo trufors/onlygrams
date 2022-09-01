@@ -2,7 +2,12 @@ import React from 'react';
 import SearchPanel from '../../common/components/SearchPanel';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { setStatusLoading, GirlItem, fetchGirlsItems } from '../../redux/slices/fetchSlicer';
+import {
+  setStatusLoading,
+  GirlItem,
+  fetchGirlsItems,
+  setComponentDidMount,
+} from '../../redux/slices/fetchSlicer';
 import MainPageItem from './components/MainPageItem';
 import Skeleton from './components/Skeleton';
 import Sort from './components/Sort';
@@ -16,6 +21,9 @@ const MainPage: React.FC = () => {
   // const [fetching, setFetching] = React.useState(true);
   React.useEffect(() => {
     dispatch(fetchGirlsItems({ currentPage, searchValue }));
+    return () => {
+      dispatch(setComponentDidMount({ currentPage: 1, searchValue: '' }));
+    };
   }, [currentPage, searchValue]);
 
   // React.useEffect(() => {

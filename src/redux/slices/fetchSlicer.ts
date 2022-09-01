@@ -85,6 +85,10 @@ export const fetchSlicer = createSlice({
     setStatusLoading(state, action: PayloadAction<boolean>) {
       state.statusLoading = action.payload;
     },
+    setComponentDidMount(state, action: PayloadAction<FetchSearch>) {
+      state.currentPage = action.payload.currentPage;
+      state.searchValue = action.payload.searchValue;
+    },
   },
   extraReducers: {
     [fetchGirl.pending.type]: (state) => {
@@ -106,7 +110,13 @@ export const fetchSlicer = createSlice({
   },
 });
 
-export const { setStatusLoading, clearGirl, setPage, setSearchValue, setCategoryTag } =
-  fetchSlicer.actions;
+export const {
+  setStatusLoading,
+  clearGirl,
+  setPage,
+  setSearchValue,
+  setCategoryTag,
+  setComponentDidMount,
+} = fetchSlicer.actions;
 
 export default fetchSlicer.reducer;

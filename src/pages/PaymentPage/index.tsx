@@ -2,7 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/store';
 const PaymentPage: React.FC = () => {
-  const { mail, linkOnlyfans } = useAppSelector((state) => state.promote);
+  const { mail, linkOnlyfans, payment, paymentSale, descr, info, days } = useAppSelector(
+    (state) => state.promote,
+  );
   return (
     <div className="pay-form-block">
       <div className="pay-form-block__inner">
@@ -24,17 +26,17 @@ const PaymentPage: React.FC = () => {
               </div> */}
               <div className="pay-form-item__block">
                 <div className="pay-form-item__name">
-                  15-day promo ({linkOnlyfans},{mail})
+                  {days} ({linkOnlyfans},{mail})
                 </div>
                 <div className="pay-form-item__desc">
-                  Your profile will be promoted for 15 days
+                  {info}
                   <br />
-                  to ~900,000 potential fans
+                  {descr}
                 </div>
               </div>
               <div className="pay-form-item__price">
-                <div className="pay-form-item__price-old">$899.00</div>
-                <div className="pay-form-item__price-set">$599.00</div>
+                <div className="pay-form-item__price-old">{payment}</div>
+                <div className="pay-form-item__price-set">{paymentSale}</div>
               </div>
             </div>
 
@@ -47,7 +49,7 @@ const PaymentPage: React.FC = () => {
                       type="text"
                       className="form-one__input form-one__input_sm"
                     />
-                    <label className="form-one__label">Your profile link</label>
+                    <label className="form-one__label">Your promocode</label>
                   </div>
                   <div className="pay-form-code__btn">
                     <button
