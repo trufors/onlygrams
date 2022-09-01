@@ -74,8 +74,48 @@ const PromotePage: React.FC = () => {
                   <use xlinkHref="img/sprite.svg#input-error"></use>
                 </svg> */}
               </div>
-              <Link to="/payment">
-                <button className="btn btn-one btn-lg btn-full-width" type="submit" disabled>
+              <div className="form-one__line">
+                <input
+                  id="email"
+                  type="email"
+                  className="form-one__input form-one__input_set "
+                  placeholder="E-mail"
+                />
+              </div>
+              <div className="form-one__line">
+                <input
+                  id="email"
+                  type="email"
+                  className="form-one__input form-one__input_set "
+                  placeholder="E-mail"
+                />
+              </div>
+              <div className="form-one__line">
+                <input
+                  id="email"
+                  type="email"
+                  className="form-one__input form-one__input_set "
+                  placeholder="E-mail"
+                />
+              </div>
+              <div className="form-one__line">
+                <input
+                  id="email"
+                  type="email"
+                  className="form-one__input form-one__input_set "
+                  placeholder="E-mail"
+                />
+              </div>
+              <div className="form-one__line">
+                <input
+                  id="email"
+                  type="email"
+                  className="form-one__input form-one__input_set "
+                  placeholder="E-mail"
+                />
+              </div>
+              <Link to="/offers">
+                <button className="btn btn-one btn-lg btn-full-width" type="submit">
                   CONFIRM
                 </button>
               </Link>
@@ -83,7 +123,6 @@ const PromotePage: React.FC = () => {
           </div>
         </div>
       </div>
-      <ReviewList />
     </div>
   );
 };

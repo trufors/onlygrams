@@ -1,6 +1,7 @@
 import React from 'react';
 import { useAppDispatch, useAppSelector } from '../../../../hooks/store';
-import { setCategoryTag } from '../../../../redux/slices/fetchSlicer';
+import { setCategoryTag, setPage } from '../../../../redux/slices/fetchSlicer';
+import classes from './Sort.module.css';
 
 const Sort: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -8,17 +9,13 @@ const Sort: React.FC = () => {
   const setOpen = () => {
     setClose(!close);
   };
-  const { categoryTag } = useAppSelector((state) => state.fetch);
+  const { categoryTag, currentPage } = useAppSelector((state) => state.fetch);
   const category: string[] = [
-    'Free trial',
     'New',
     'Free',
     'TikTok',
-    'Sale',
-    'Top',
     'Instagram',
     'Hottest',
-    'Near you',
     'Teens 18+',
     'Pornstars',
     'Milf',
@@ -34,13 +31,20 @@ const Sort: React.FC = () => {
       {categ}
     </a>
   ));
+  const pages = [4, 3, 2, 1];
 
   return (
     <div className={`tag-items ${close ? 'tag-items_close' : ''}`}>
-      <div onClick={setOpen} className="tag-item tag-item_all">
-        <svg className="tag-item__icon">
-          <use xlinkHref="img/sprite.svg#str-all"></use>
-        </svg>
+      <div>
+        {pages.map((p) => (
+          <span
+            onClick={(e) => dispatch(setPage(p))}
+            className={`tag-item tag-item_all ${classes.page} ${
+              currentPage !== Number(p) ? '' : classes.active
+            }`}>
+            {p}
+          </span>
+        ))}
       </div>
       {categoryArray}
     </div>

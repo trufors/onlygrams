@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../../hooks/store';
-import { searchGirls, setSearchValue } from '../../../redux/slices/fetchSlicer';
+import { setSearchValue } from '../../../redux/slices/fetchSlicer';
+import styles from './SearchPanel.module.css';
 
 const SearchPanel: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -34,12 +35,19 @@ const SearchPanel: React.FC = () => {
             </div>
           </div>
           <div className="search-panel__btn">
-            <Link to="/offers">
+            <Link to="/promote">
               <button type="button" className="btn btn-one">
                 <svg className="btn__icon btn__icon_plus">
                   <use xlinkHref="img/sprite.svg#plus"></use>
                 </svg>
                 Promote
+              </button>
+            </Link>
+          </div>
+          <div className={`${styles.btn} search-panel__btn`}>
+            <Link to="/">
+              <button type="button" className="btn btn-one">
+                <span>Create Your Task</span>
               </button>
             </Link>
           </div>

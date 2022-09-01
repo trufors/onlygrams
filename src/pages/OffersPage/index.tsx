@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 const OffersPage: React.FC = () => {
   return (
     <div>
-      <div className="promoting-account">
+      {/* <div className="promoting-account">
         <div className="promoting-account__inner">
           <div className="promoting-tariff__title">Start promoting right now!</div>
         </div>
-      </div>
+      </div> */}
       <div className="promoting-tariff">
         {/* <div className="promoting-tariff__title">Start promoting right now!</div> */}
         <div className="promoting-tariff__items">
@@ -43,7 +43,7 @@ const OffersPage: React.FC = () => {
                   <div className="promoting-tariff-item__old-price">$349.00</div>
                   <div className="promoting-tariff-item__price">FREE</div>
                   <Link
-                    to="/promote"
+                    to="/payment"
                     className="promoting-tariff-item__btn btn btn-one btn-full-width">
                     Checkout & start promotion
                   </Link>
@@ -82,7 +82,7 @@ const OffersPage: React.FC = () => {
                   <div className="promoting-tariff-item__old-price">$899.00</div>
                   <div className="promoting-tariff-item__price">$599.00</div>
                   <Link
-                    to="/promote"
+                    to="/payment"
                     className="promoting-tariff-item__btn btn btn-one btn-full-width">
                     Checkout & start promotion
                   </Link>
@@ -129,7 +129,7 @@ const OffersPage: React.FC = () => {
                   <div className="promoting-tariff-item__old-price">$1749.00</div>
                   <div className="promoting-tariff-item__price">$1199.00</div>
                   <Link
-                    to="/promote"
+                    to="/payment"
                     className="promoting-tariff-item__btn btn btn-one btn-full-width">
                     Checkout & start promotion
                   </Link>

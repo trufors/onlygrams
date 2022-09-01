@@ -5,12 +5,13 @@ import axios from 'axios';
 
 // Define a type for the slice state
 interface FetchState {
-  // items: GirlItem[];
+  items: GirlItem[];
   statusLoading: boolean;
   girl: GirlItem | undefined;
   statusLoadingProfile: boolean;
   searchValue: string;
   categoryTag: string;
+  currentPage: number;
 }
 export interface GirlItem {
   id: number;
@@ -23,19 +24,19 @@ export interface GirlItem {
   categories: string;
   rating: Array<string>;
 }
-// export const fetchGirlsItems = createAsyncThunk(
-//   'fetch/fetchGirlsItems',
-//   async (limit: number, thunkAPI) => {
-//     try {
-//       const response = await axios.get<GirlItem[]>(
-//         `https://62ebbb5255d2bd170e74e421.mockapi.io/items?page=1&limit=${limit}`,
-//       );
-//       return response.data;
-//     } catch (e) {
-//       return thunkAPI.rejectWithValue('не удалось получить телочек');
-//     }
-//   },
-// );
+export const fetchGirlsItems = createAsyncThunk(
+  'fetch/fetchGirlsItems',
+  async (currentPage: number, thunkAPI) => {
+    try {
+      const response = await axios.get<GirlItem[]>(
+        `https://62ebbb5255d2bd170e74e421.mockapi.io/items?page=${currentPage}&limit=8`,
+      );
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue('не удалось получить телочек');
+    }
+  },
+);
 export const fetchGirl = createAsyncThunk('fetch/fetchGirl', async (id: number, thunkAPI) => {
   try {
     const response = await axios.get<GirlItem>(
@@ -48,12 +49,13 @@ export const fetchGirl = createAsyncThunk('fetch/fetchGirl', async (id: number, 
 });
 // Define the initial state using that type
 const initialState: FetchState = {
-  // items: [],
+  items: [],
   girl: undefined,
   statusLoading: false,
   statusLoadingProfile: false,
   searchValue: '',
   categoryTag: 'New',
+  currentPage: 1,
 };
 
 export const fetchSlicer = createSlice({
@@ -64,24 +66,15 @@ export const fetchSlicer = createSlice({
     clearGirl(state) {
       state.girl = undefined;
     },
-    // searchGirls(state, action: PayloadAction<string>) {
-    //   if (action.payload === '') {
-    //     state.items = state.items;
-    //   } else {
-    //     state.items = state.items.filter(
-    //       (item) => item.title.toLowerCase() === action.payload.toLowerCase(),
-    //     );
-    //   }
-    // },
+    setPage(state,action: PayloadAction<number>){
+      state.currentPage = action.payload;
+    },
     setSearchValue(state, action: PayloadAction<string>) {
       state.searchValue = action.payload;
     },
     setCategoryTag(state, action: PayloadAction<string>) {
       state.categoryTag = action.payload;
     },
-    // clearGirlItems(state) {
-    //   state.items = [];
-    // },
     setStatusLoading(state, action: PayloadAction<boolean>) {
       state.statusLoading = action.payload;
     },
@@ -95,13 +88,21 @@ export const fetchSlicer = createSlice({
       state.statusLoading = true;
     },
     [fetchGirl.rejected.type]: (state) => {},
+    [fetchGirlsItems.pending.type]: (state) => {
+      state.statusLoading = false;
+    },
+    [fetchGirlsItems.fulfilled.type]: (state, action: PayloadAction<GirlItem[]>) => {
+      state.items = action.payload;
+      state.statusLoading = true;
+    },
+    [fetchGirlsItems.rejected.type]: (state) => {},
   },
 });
 
 export const {
   setStatusLoading,
   clearGirl,
-
+  setPage,
   setSearchValue,
   setCategoryTag,
 } = fetchSlicer.actions;
