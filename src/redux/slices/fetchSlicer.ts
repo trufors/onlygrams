@@ -24,12 +24,19 @@ export interface GirlItem {
   categories: string;
   rating: Array<string>;
 }
+
+export interface FetchSearch {
+  currentPage: number;
+  searchValue: string;
+}
+
 export const fetchGirlsItems = createAsyncThunk(
   'fetch/fetchGirlsItems',
-  async (currentPage: number, thunkAPI) => {
+  async (obj: FetchSearch, thunkAPI) => {
     try {
+      const searchModels = obj.searchValue ? `title=${obj.searchValue}` : '';
       const response = await axios.get<GirlItem[]>(
-        `https://62ebbb5255d2bd170e74e421.mockapi.io/items?page=${currentPage}&limit=8`,
+        `https://62ebbb5255d2bd170e74e421.mockapi.io/items?page=${obj.currentPage}&limit=8&${searchModels}`,
       );
       return response.data;
     } catch (e) {
@@ -66,7 +73,7 @@ export const fetchSlicer = createSlice({
     clearGirl(state) {
       state.girl = undefined;
     },
-    setPage(state,action: PayloadAction<number>){
+    setPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload;
     },
     setSearchValue(state, action: PayloadAction<string>) {
@@ -99,12 +106,7 @@ export const fetchSlicer = createSlice({
   },
 });
 
-export const {
-  setStatusLoading,
-  clearGirl,
-  setPage,
-  setSearchValue,
-  setCategoryTag,
-} = fetchSlicer.actions;
+export const { setStatusLoading, clearGirl, setPage, setSearchValue, setCategoryTag } =
+  fetchSlicer.actions;
 
 export default fetchSlicer.reducer;

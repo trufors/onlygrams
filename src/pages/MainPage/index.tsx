@@ -15,8 +15,8 @@ const MainPage: React.FC = () => {
   // const [items, setItems] = React.useState<GirlItem[]>([]);
   // const [fetching, setFetching] = React.useState(true);
   React.useEffect(() => {
-    dispatch(fetchGirlsItems(currentPage));
-  }, [currentPage]);
+    dispatch(fetchGirlsItems({ currentPage, searchValue }));
+  }, [currentPage, searchValue]);
 
   // React.useEffect(() => {
   //   document.addEventListener('scroll', scrollHandler);
