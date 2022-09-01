@@ -1,15 +1,33 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../../hooks/store';
+import debounce from 'lodash.debounce';
+
+import { useAppDispatch } from '../../../hooks/store';
 import { setSearchValue } from '../../../redux/slices/fetchSlicer';
 import styles from './SearchPanel.module.css';
 
 const SearchPanel: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { searchValue } = useAppSelector((state) => state.fetch);
+
+  /**
+   * локальный стейт без lodash для быстрого отображения
+   */
+  const [value, setValue] = React.useState('');
+
+  /**
+   * в стор записываем только после паузы в пол секунды (т.е. не перезаписываем каждый символ)
+   */
+  const updateSearchValue = React.useCallback(
+    debounce((str) => {
+      dispatch(setSearchValue(str));
+    }, 500),
+    [],
+  );
+
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const enteredName = event.target.value;
-    dispatch(setSearchValue(enteredName));
+    setValue(enteredName);
+    updateSearchValue(enteredName);
   };
 
   return (
@@ -23,7 +41,7 @@ const SearchPanel: React.FC = () => {
                 type="text"
                 className="search-form__input"
                 onChange={inputHandler}
-                value={searchValue}
+                value={value}
                 placeholder="Search..."
               />
               {/* <button onClick={search} className="search-form__btn">
