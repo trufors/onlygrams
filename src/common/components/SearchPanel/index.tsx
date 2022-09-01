@@ -2,15 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import debounce from 'lodash.debounce';
 
-import { useAppDispatch, useAppSelector } from '../../../hooks/store';
+import { useAppDispatch } from '../../../hooks/store';
 import { setSearchValue } from '../../../redux/slices/fetchSlicer';
 import styles from './SearchPanel.module.css';
 
 const SearchPanel: React.FC = () => {
   const dispatch = useAppDispatch();
-
-  const { searchValue } = useAppSelector((state) => state.fetch);
-  console.log(searchValue);
 
   /**
    * локальный стейт без lodash для быстрого отображения
