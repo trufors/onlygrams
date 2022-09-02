@@ -3,13 +3,16 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Define a type for the slice state
+export interface promoteInput {
+  email: string;
+  link: string;
+  tiktok: string;
+  inst: string;
+  name: string;
+}
+
 interface PromoteState {
-  linkOnlyfans: string | null;
-  mail: string | null;
-  tiktok: string | null;
-  instagram: string | null;
-  textpromote: string | null;
+  data: promoteInput;
   money: string | null;
   payment: string | null;
   paymentSale: string | null;
@@ -20,17 +23,19 @@ interface PromoteState {
 
 // Define the initial state using that type
 const initialState: PromoteState = {
-  linkOnlyfans: null,
-  mail: null,
   money: null,
   payment: null,
   paymentSale: null,
   days: null,
   info: null,
   descr: null,
-  textpromote: null,
-  tiktok: null,
-  instagram: null,
+  data: {
+    email: '',
+    link: '',
+    tiktok: '',
+    inst: '',
+    name: '',
+  },
 };
 
 export const promoteSlicer = createSlice({
@@ -38,13 +43,6 @@ export const promoteSlicer = createSlice({
   // `createSlice` will infer the state type from the `initialState` argument
   initialState,
   reducers: {
-    setLinkOnlyfans(state, action: PayloadAction<string>) {
-      state.linkOnlyfans = action.payload;
-      console.log(state.linkOnlyfans);
-    },
-    setMail(state, action: PayloadAction<string>) {
-      state.mail = action.payload;
-    },
     setMoney(state, action: PayloadAction<string>) {
       state.money = action.payload;
     },
@@ -55,10 +53,13 @@ export const promoteSlicer = createSlice({
       state.info = action.payload[3];
       state.descr = action.payload[4];
     },
+    setData(state, action: PayloadAction<promoteInput>) {
+      state.data = action.payload;
+    },
   },
   extraReducers: {},
 });
 
-export const { setLinkOnlyfans, setMail, setMoney, setOffer } = promoteSlicer.actions;
+export const { setData, setMoney, setOffer } = promoteSlicer.actions;
 
 export default promoteSlicer.reducer;

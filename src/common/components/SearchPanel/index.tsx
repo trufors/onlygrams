@@ -44,12 +44,6 @@ const SearchPanel: React.FC = () => {
                 value={value}
                 placeholder="Search..."
               />
-              {/* <button onClick={search} className="search-form__btn">
-                  <svg className="search-form__btn-icon">
-                    <use xlinkHref="img/sprite.svg#search"></use>
-                  </svg>
-                </button> */}
-              {/* </form> */}
             </div>
           </div>
           <div className="search-panel__btn">
