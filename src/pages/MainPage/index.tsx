@@ -17,31 +17,12 @@ const MainPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const { statusLoading, searchValue, currentPage, items } = useAppSelector((state) => state.fetch);
 
-  // const [items, setItems] = React.useState<GirlItem[]>([]);
-  // const [fetching, setFetching] = React.useState(true);
   React.useEffect(() => {
     dispatch(fetchGirlsItems({ currentPage, searchValue }));
     return () => {
       dispatch(setComponentDidMount({ currentPage: 1, searchValue: '' }));
     };
   }, [currentPage, searchValue]);
-
-  // React.useEffect(() => {
-  //   document.addEventListener('scroll', scrollHandler);
-  //   return () => {
-  //     document.removeEventListener('scroll', scrollHandler);
-  //   };
-  // }, []);
-  // const scrollHandler = (e: any) => {
-  //   if (
-  //     e.target.documentElement.scrollHeight -
-  //       (e.target.documentElement.scrollTop + window.innerHeight) <
-  //     100
-  //   ) {
-  //     console.log(1);
-  //     setFetching(true);
-  //   }
-  // };
 
   const searchArray: GirlItem[] = items.filter((item) =>
     item.title.toLowerCase().includes(searchValue.toLowerCase()),

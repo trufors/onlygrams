@@ -63,7 +63,7 @@ const SearchPanel: React.FC = () => {
             </Link>
           </div>
           <div className={`${styles.btn} search-panel__btn`}>
-            <Link to="/">
+            <Link to="/tasks">
               <button type="button" className="btn btn-one">
                 <span>Create Your Task</span>
               </button>
