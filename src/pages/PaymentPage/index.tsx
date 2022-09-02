@@ -2,9 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/store';
 const PaymentPage: React.FC = () => {
-  const { mail, linkOnlyfans, payment, paymentSale, descr, info, days } = useAppSelector(
+  const { data, payment, paymentSale, descr, info, days } = useAppSelector(
     (state) => state.promote,
   );
+
+  const tagArr = data.link.split('/');
+  const tagName = tagArr[3];
+
   return (
     <div className="pay-form-block">
       <div className="pay-form-block__inner">
@@ -26,7 +30,8 @@ const PaymentPage: React.FC = () => {
               </div> */}
               <div className="pay-form-item__block">
                 <div className="pay-form-item__name">
-                  {days} ({linkOnlyfans},{mail})
+                  {days} for account @{tagName}
+                  <br />({data.email})
                 </div>
                 <div className="pay-form-item__desc">
                   {info}

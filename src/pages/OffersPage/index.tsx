@@ -1,11 +1,13 @@
 import React from 'react';
 import ReviewList from '../../common/components/ReviewList';
 import { Link } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/store';
+import { useAppDispatch, useAppSelector } from '../../hooks/store';
 import { setOffer } from '../../redux/slices/promoteSlicer';
 
 const OffersPage: React.FC = () => {
   const dispatch = useAppDispatch();
+  const { data } = useAppSelector((state) => state.promote);
+  console.log(data);
 
   return (
     <div>
