@@ -6,6 +6,11 @@ import { setLinkOnlyfans, setMail } from '../../redux/slices/promoteSlicer';
 
 const PromotePage: React.FC = () => {
   const dispatch = useAppDispatch();
+  const [mailInput, setMailInput] = React.useState('');
+  const [tiktok, setTiktok] = React.useState('');
+  const [instagram, setInstagram] = React.useState('');
+  const [linkOnly, setLinkOnly] = React.useState('');
+  const [descr, setDescr] = React.useState('');
 
   return (
     <div>

@@ -5,8 +5,11 @@ import axios from 'axios';
 
 // Define a type for the slice state
 interface PromoteState {
-  linkOnlyfans: string | undefined;
-  mail: string | undefined;
+  linkOnlyfans: string | null;
+  mail: string | null;
+  tiktok: string | null;
+  instagram: string | null;
+  textpromote: string | null;
   money: string | null;
   payment: string | null;
   paymentSale: string | null;
@@ -17,14 +20,17 @@ interface PromoteState {
 
 // Define the initial state using that type
 const initialState: PromoteState = {
-  linkOnlyfans: undefined,
-  mail: undefined,
+  linkOnlyfans: null,
+  mail: null,
   money: null,
   payment: null,
   paymentSale: null,
   days: null,
   info: null,
   descr: null,
+  textpromote: null,
+  tiktok: null,
+  instagram: null,
 };
 
 export const promoteSlicer = createSlice({

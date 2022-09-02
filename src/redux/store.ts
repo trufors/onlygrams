@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import fetchSlicer from './slices/fetchSlicer';
+import profiSlicer from './slices/profiSlicer';
 import promoteSlicer from './slices/promoteSlicer';
 // ...
 
@@ -7,6 +8,7 @@ export const store = configureStore({
   reducer: {
     fetch: fetchSlicer,
     promote: promoteSlicer,
+    profi: profiSlicer,
   },
 });
 

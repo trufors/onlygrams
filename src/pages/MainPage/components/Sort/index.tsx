@@ -18,11 +18,8 @@ const Sort: React.FC = () => {
     'Hottest',
     'Teens 18+',
     'Pornstars',
-    'Milf',
-    'Latin',
     'Onlyfans',
     'Best in Russia',
-    'Blonde',
   ];
   const categoryArray = category.map((categ) => (
     <a
@@ -35,18 +32,17 @@ const Sort: React.FC = () => {
 
   return (
     <div className={`tag-items ${close ? 'tag-items_close' : ''}`}>
-      <div>
-        {pages.map((p) => (
-          <span
-            onClick={(e) => dispatch(setPage(p))}
-            className={`tag-item tag-item_all ${classes.page} ${
-              currentPage !== Number(p) ? '' : classes.active
-            }`}>
-            {p}
-          </span>
-        ))}
-      </div>
       {categoryArray}
+
+      {pages.map((p) => (
+        <span
+          onClick={(e) => dispatch(setPage(p))}
+          className={`tag-item tag-item_all ${classes.page} ${
+            currentPage !== Number(p) ? '' : classes.active
+          }`}>
+          {p}
+        </span>
+      ))}
     </div>
   );
 };

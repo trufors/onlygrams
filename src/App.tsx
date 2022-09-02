@@ -6,6 +6,7 @@ import ProfilePage from './pages/ProfilePage';
 import PromotePage from './pages/PromotePage';
 import OffersPage from './pages/OffersPage';
 import PaymentPage from './pages/PaymentPage';
+import ProfiPage from './pages/ProfiPage';
 
 const App: React.FC = () => {
   return (
@@ -14,6 +15,7 @@ const App: React.FC = () => {
         <Route index element={<MainPage />} />
         <Route path="/:id" element={<ProfilePage />} />
         <Route path="/promote" element={<PromotePage />} />
+        <Route path="/tasks" element={<ProfiPage />} />
         <Route path="/offers" element={<OffersPage />} />
         <Route path="/payment" element={<PaymentPage />} />
       </Route>
