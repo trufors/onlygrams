@@ -9,6 +9,7 @@ export interface promoteInput {
   tiktok: string;
   inst: string;
   name: string;
+  file: any;
 }
 
 interface PromoteState {
@@ -35,6 +36,7 @@ const initialState: PromoteState = {
     tiktok: '',
     inst: '',
     name: '',
+    file: null,
   },
 };
 
