@@ -1,17 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { GirlItem } from '../../../../redux/slices/fetchSlicer';
-const MainPageItem: React.FC<GirlItem> = ({
-  imageMaxUrl,
-  imageMinUrl,
-  id,
-  description,
-  title,
-  tagName,
-}) => {
+const MainPageItem: React.FC<GirlItem> = ({ imageMaxUrl, link, description, title, tagName }) => {
   return (
     <>
-      <Link to={`/${id}`} className="profile-list-item">
+      <a target="_blank" href={link} className="profile-list-item">
         <img src={imageMaxUrl} alt="" className="profile-list-item__img" />
         <div className="profile-list-item__block">
           <div className="profile-list-item__name">
@@ -21,7 +14,7 @@ const MainPageItem: React.FC<GirlItem> = ({
           </div>
           <div className="profile-list-item__text">{description}</div>
         </div>
-      </Link>
+      </a>
     </>
   );
 };

@@ -127,16 +127,6 @@ const ProfiPage: React.FC = () => {
               <div className="profile-list-item__text">Здесь будет описание</div>
             </div>
           </Link>
-          <Link to={`/`} className={`${classes.item} profile-list-item`}>
-            <div className={`${classes.block} profile-list-item__block`}>
-              <div className="profile-list-item__name">
-                Снять порно
-                <br />
-                предпочтительный способ связи
-              </div>
-              <div className="profile-list-item__text">Здесь будет описание</div>
-            </div>
-          </Link>
         </div>
       </div>
     </>

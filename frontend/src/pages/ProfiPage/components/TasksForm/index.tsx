@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../../hooks/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { TasksInputs, setTasksData } from '../../../../redux/slices/profiSlicer';
+import classes from './TasksForm.module.css';
 
 const TasksForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const TasksForm: React.FC = () => {
 
   const onSubmit: SubmitHandler<TasksInputs> = (data) => {
     dispatch(setTasksData(data));
+    console.log(data);
     navigate('/thanks');
   };
   return (
@@ -91,6 +93,17 @@ const TasksForm: React.FC = () => {
                   placeholder="Upload your photo here"
                   {...register('file')}
                 />
+              </div>
+
+              <div className="form-one__line">
+                <select className={classes.select} {...register('category')}>
+                  <option value="Porno">Porno</option>
+                  <option value="Photo">Photo</option>
+                  <option selected value="Escort">
+                    Escort
+                  </option>
+                  <option value="other">Other</option>
+                </select>
               </div>
 
               <button

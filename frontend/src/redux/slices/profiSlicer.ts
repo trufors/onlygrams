@@ -17,21 +17,26 @@ interface ProfiState {
   currentPage: number;
   data: TasksInputs;
 }
-
-// export const fetchGirlsItems = createAsyncThunk(
-//   'fetch/fetchGirlsItems',
-//   async (obj: FetchSearch, thunkAPI) => {
-//     try {
-//       const searchModels = obj.searchValue ? `title=${obj.searchValue}` : '';
-//       const response = await axios.get<GirlItem[]>(
-//         `https://62ebbb5255d2bd170e74e421.mockapi.io/items?page=${obj.currentPage}&limit=8&${searchModels}`,
-//       );
-//       return response.data;
-//     } catch (e) {
-//       return thunkAPI.rejectWithValue('не удалось получить телочек');
-//     }
-//   },
-// );
+export interface FetchTasks {
+  category: string;
+  limit: number;
+}
+export const fetchTasksItems = createAsyncThunk(
+  'profi/fetchTasksItems',
+  async (obj: FetchTasks, thunkAPI) => {
+    try {
+      const response = await axios.get<TasksInputs[]>(
+        `https://62ebbb5255d2bd170e74e421.mockapi.io`,
+        {
+          params: { category: obj.category, limit: 8 },
+        },
+      );
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue('не удалось получить задания на порно');
+    }
+  },
+);
 
 // Define the initial state using that type
 const initialState: ProfiState = {
@@ -60,14 +65,14 @@ export const fetchSlicer = createSlice({
     },
   },
   extraReducers: {
-    // [fetchGirl.pending.type]: (state) => {
-    //   state.statusLoading = false;
-    // },
-    // [fetchGirl.fulfilled.type]: (state, action: PayloadAction<GirlItem>) => {
-    //   state.girl = action.payload;
-    //   state.statusLoading = true;
-    // },
-    // [fetchGirl.rejected.type]: (state) => {},
+    [fetchTasksItems.pending.type]: (state) => {
+      state.statusLoading = false;
+    },
+    [fetchTasksItems.fulfilled.type]: (state, action: PayloadAction<TasksInputs[]>) => {
+      state.tasks = action.payload;
+      state.statusLoading = true;
+    },
+    [fetchTasksItems.rejected.type]: (state) => {},
   },
 });
 
