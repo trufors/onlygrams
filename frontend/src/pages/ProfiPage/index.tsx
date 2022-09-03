@@ -33,7 +33,7 @@ const ProfiPage: React.FC = () => {
               </Link>
             </div>
             <div className={` search-panel__btn`}>
-              <Link to="/tasks">
+              <Link to="/create">
                 <button type="button" className="btn btn-one">
                   <span>Create Your Task</span>
                 </button>

@@ -4,14 +4,18 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Define a type for the slice state
+export interface TasksInputs {
+  email: string;
+  tg: string;
+  descr: string;
+  category: string;
+  file: any;
+}
 interface ProfiState {
-  tasks: TasksItem[];
+  tasks: TasksInputs[];
   statusLoading: boolean;
   currentPage: number;
-}
-export interface TasksItem {
-  id: number;
-  descr: string;
+  data: TasksInputs;
 }
 
 // export const fetchGirlsItems = createAsyncThunk(
@@ -34,6 +38,13 @@ const initialState: ProfiState = {
   tasks: [],
   statusLoading: false,
   currentPage: 1,
+  data: {
+    email: '',
+    tg: '',
+    descr: '',
+    category: '',
+    file: '',
+  },
 };
 
 export const fetchSlicer = createSlice({
@@ -43,6 +54,9 @@ export const fetchSlicer = createSlice({
   reducers: {
     setCurrentPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload;
+    },
+    setTasksData(state, action: PayloadAction<TasksInputs>) {
+      state.data = action.payload;
     },
   },
   extraReducers: {
@@ -57,6 +71,6 @@ export const fetchSlicer = createSlice({
   },
 });
 
-export const { setCurrentPage } = fetchSlicer.actions;
+export const { setCurrentPage, setTasksData } = fetchSlicer.actions;
 
 export default fetchSlicer.reducer;
