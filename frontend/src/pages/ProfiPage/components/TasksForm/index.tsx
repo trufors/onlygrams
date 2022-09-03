@@ -97,7 +97,8 @@ const TasksForm: React.FC = () => {
 
               <div className="form-one__line">
                 <select className={classes.select} {...register('category')}>
-                  <option value="Porno">Porno</option>
+                  <option value="Porno">Porn</option>
+                  <option value="Make a film">Make a Film</option>
                   <option value="Photo">Photo</option>
                   <option selected value="Escort">
                     Escort

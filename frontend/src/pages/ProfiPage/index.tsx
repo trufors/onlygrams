@@ -9,7 +9,7 @@ const ProfiPage: React.FC = () => {
   const { currentPage } = useAppSelector((state) => state.profi);
   const [activeCategory, setActiveCategory] = React.useState<string>('All');
 
-  const category: string[] = ['All', 'Porn', 'Photo', 'Escort', 'Film a video', 'Other'];
+  const category: string[] = ['All', 'Porn', 'Photo', 'Escort', 'Make a video', 'Other'];
   const categoryArray = category.map((categ) => (
     <a
       onClick={() => {
