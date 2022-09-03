@@ -132,6 +132,22 @@ const PromotePage: React.FC = () => {
               </div>
               <div className="form-one__line">
                 <input
+                  className="form-one__input form-one__input_set "
+                  placeholder="Your description"
+                  {...register('descr', {
+                    required: 'descr',
+                    minLength: {
+                      value: 10,
+                      message: 'ooops, minimal length 10 symbols',
+                    },
+                  })}
+                />
+                {errors?.descr && (
+                  <div className="form-one__error">ooops, minimal length 10 symbols</div>
+                )}
+              </div>
+              <div className="form-one__line">
+                <input
                   type="file"
                   className="form-one__input form-one__input_set "
                   placeholder="Upload your photo here"

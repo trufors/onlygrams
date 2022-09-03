@@ -10,6 +10,7 @@ export interface promoteInput {
   inst: string;
   name: string;
   file: any;
+  descr: string;
 }
 
 interface PromoteState {
@@ -37,6 +38,7 @@ const initialState: PromoteState = {
     inst: '',
     name: '',
     file: null,
+    descr: '',
   },
 };
 
