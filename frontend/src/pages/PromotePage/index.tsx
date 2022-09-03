@@ -134,15 +134,15 @@ const PromotePage: React.FC = () => {
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="Your description"
-                  {...register('descr', {
-                    required: 'descr',
+                  {...register('description', {
+                    required: 'description',
                     minLength: {
                       value: 10,
                       message: 'ooops, minimal length 10 symbols',
                     },
                   })}
                 />
-                {errors?.descr && (
+                {errors?.description && (
                   <div className="form-one__error">ooops, minimal length 10 symbols</div>
                 )}
               </div>

@@ -18,7 +18,7 @@ interface ProfiState {
   data: TasksInputs;
 }
 
-// export const fetchGirlsItems = createAsyncThunk(
+// export const fetchTasksItems = createAsyncThunk(
 //   'fetch/fetchGirlsItems',
 //   async (obj: FetchSearch, thunkAPI) => {
 //     try {
@@ -28,7 +28,7 @@ interface ProfiState {
 //       );
 //       return response.data;
 //     } catch (e) {
-//       return thunkAPI.rejectWithValue('не удалось получить телочек');
+//       return thunkAPI.rejectWithValue('не удалось получить задания на порно');
 //     }
 //   },
 // );
