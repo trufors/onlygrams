@@ -44,16 +44,7 @@ export const fetchGirlsItems = createAsyncThunk(
     }
   },
 );
-export const fetchGirl = createAsyncThunk('fetch/fetchGirl', async (id: number, thunkAPI) => {
-  try {
-    const response = await axios.get<GirlItem>(
-      `https://62ebbb5255d2bd170e74e421.mockapi.io/items/${id}`,
-    );
-    return response.data;
-  } catch (e) {
-    return thunkAPI.rejectWithValue('не удалось получить телочек');
-  }
-});
+
 // Define the initial state using that type
 const initialState: FetchState = {
   items: [],
@@ -91,14 +82,6 @@ export const fetchSlicer = createSlice({
     },
   },
   extraReducers: {
-    [fetchGirl.pending.type]: (state) => {
-      state.statusLoading = false;
-    },
-    [fetchGirl.fulfilled.type]: (state, action: PayloadAction<GirlItem>) => {
-      state.girl = action.payload;
-      state.statusLoading = true;
-    },
-    [fetchGirl.rejected.type]: (state) => {},
     [fetchGirlsItems.pending.type]: (state) => {
       state.statusLoading = false;
     },
