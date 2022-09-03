@@ -15,6 +15,7 @@ model Person {
   createdAt   DateTime @default(now())
   email       String   @unique
   description String   @default("")
+  imageUrl    String   @default("")
   name        String
   links       Json?
 }

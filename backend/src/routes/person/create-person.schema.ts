@@ -7,6 +7,7 @@ const CreatePersonDto = Type.Object({
     email: Type.String({ format: "email" }),
     name: Type.String(),
     description: Type.String(),
+    image: Type.Optional(Type.String()),
     links: Type.Object({
       onlyFans: Type.String(),
       tiktok: Type.String(),

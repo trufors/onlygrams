@@ -1,23 +1,66 @@
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { SubmitHandler, useForm } from 'react-hook-form';
-import { promoteInput, setData } from '../../redux/slices/promoteSlicer';
+import React from "react"
+import { Link, useNavigate } from "react-router-dom"
+import { useAppDispatch, useAppSelector } from "../../hooks/store"
+import { SubmitHandler, useForm } from "react-hook-form"
+import { PromoteInput, setData } from "../../redux/slices/promoteSlicer"
+import axios from "axios"
+
+type SavePersonPayload = {
+  person: {
+    email: string
+    name: string
+    description: string
+    image: string
+    links: {
+      onlyFans: string
+      tiktok: string
+      instagram: string
+    }
+  }
+}
 
 const PromotePage: React.FC = () => {
-  const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch()
   const {
     register,
     formState: { errors, isValid },
-    handleSubmit,
-  } = useForm<promoteInput>({ mode: 'onBlur' });
+    handleSubmit
+  } = useForm<PromoteInput>({ mode: "onBlur" })
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
-  const onSubmit: SubmitHandler<promoteInput> = (data) => {
-    dispatch(setData(data));
-    navigate('/offers');
-  };
+  const onSubmit: SubmitHandler<PromoteInput> = async (data) => {
+    dispatch(setData(data))
+
+    console.log(data, "DATA??")
+
+    await axios
+      .post("/api/file/upload", data.file, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      })
+      .then((res) => res.data)
+      .then(({ filename }) => {
+        const payload: SavePersonPayload = {
+          person: {
+            email: data.email,
+            name: data.name,
+            description: data.description,
+            image: filename,
+            links: {
+              onlyFans: data.link,
+              tiktok: data.tiktok,
+              instagram: data.inst
+            }
+          }
+        }
+
+        axios.post<SavePersonPayload>("api/person", payload)
+      })
+
+    navigate("/offers")
+  }
 
   return (
     <>
@@ -33,18 +76,18 @@ const PromotePage: React.FC = () => {
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="E-mail"
-                  {...register('email', {
-                    required: 'Email is required field!',
+                  {...register("email", {
+                    required: "Email is required field!",
                     pattern: {
                       value:
                         /^((([0-9A-Za-z]{1}[-0-9A-z.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}.){1,2}[-A-Za-z]{2,})$/u,
-                      message: 'ooops, uncorrect e-mail format',
-                    },
+                      message: "ooops, uncorrect e-mail format"
+                    }
                   })}
                 />
                 {errors?.email && (
                   <div className="form-one__error">
-                    ooops, uncorrect e-mail format{' '}
+                    ooops, uncorrect e-mail format{" "}
                     <span className="form-one__error-small">(for ex. onlygram@gmail.com)</span>
                   </div>
                 )}
@@ -54,13 +97,13 @@ const PromotePage: React.FC = () => {
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="Your onlyfans link"
-                  {...register('link', {
-                    required: 'link',
+                  {...register("link", {
+                    required: "link",
 
                     pattern: {
                       value: /^(https?:\/\/onlyfans?)?([\w-]{1,32}\.[\w-]{1,32})[^\s@]/u,
-                      message: 'ooops, uncorrect onlyfans format',
-                    },
+                      message: "ooops, uncorrect onlyfans format"
+                    }
                   })}
                 />
                 {errors?.link && (
@@ -76,12 +119,12 @@ const PromotePage: React.FC = () => {
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="Your tiktok link"
-                  {...register('tiktok', {
-                    required: 'tiktok',
+                  {...register("tiktok", {
+                    required: "tiktok",
                     minLength: {
                       value: 24,
-                      message: 'ooops, uncorrect tiktok format',
-                    },
+                      message: "ooops, uncorrect tiktok format"
+                    }
                   })}
                 />
                 {errors?.tiktok && (
@@ -97,12 +140,12 @@ const PromotePage: React.FC = () => {
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="Your instagram link"
-                  {...register('inst', {
-                    required: 'inst',
+                  {...register("inst", {
+                    required: "inst",
                     minLength: {
                       value: 26,
-                      message: 'ooops, uncorrect tiktok format',
-                    },
+                      message: "ooops, uncorrect tiktok format"
+                    }
                   })}
                 />
                 {errors?.inst && (
@@ -118,12 +161,12 @@ const PromotePage: React.FC = () => {
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="Your Name"
-                  {...register('name', {
-                    required: 'name',
+                  {...register("name", {
+                    required: "name",
                     minLength: {
                       value: 3,
-                      message: 'ooops, uncorrect tagName format',
-                    },
+                      message: "ooops, uncorrect tagName format"
+                    }
                   })}
                 />
                 {errors?.name && (
@@ -134,12 +177,12 @@ const PromotePage: React.FC = () => {
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="Your description"
-                  {...register('description', {
-                    required: 'description',
+                  {...register("description", {
+                    required: "description",
                     minLength: {
                       value: 10,
-                      message: 'ooops, minimal length 10 symbols',
-                    },
+                      message: "ooops, minimal length 10 symbols"
+                    }
                   })}
                 />
                 {errors?.description && (
@@ -151,7 +194,7 @@ const PromotePage: React.FC = () => {
                   type="file"
                   className="form-one__input form-one__input_set "
                   placeholder="Upload your photo here"
-                  {...register('file')}
+                  {...register("file")}
                 />
                 {/* {errors?.photo && (
                   <div className="form-one__error">
@@ -171,8 +214,9 @@ const PromotePage: React.FC = () => {
               <button
                 className="btn btn-one btn-lg btn-full-width"
                 type="submit"
-                disabled={!isValid}>
-                {' '}
+                disabled={!isValid}
+              >
+                {" "}
                 CONFIRM
               </button>
             </form>
@@ -180,10 +224,10 @@ const PromotePage: React.FC = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}
 
-export default PromotePage;
+export default PromotePage
 {
   /* form-one__input_error */
 }

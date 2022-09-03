@@ -5,7 +5,12 @@ import { GerPersonsReq, GerPersonsSchema } from "./get-persons.schema"
 
 const personRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> => {
   fastify.post<CreatePersonReq>("/", { schema: CreatePersonSchema }, async (request, reply) => {
-    return fastify.prisma.person.create({ data: request.body.person })
+    const imageUrl = `file/${request.body.person.image}`
+    const data = request.body.person
+
+    delete data.image
+
+    return fastify.prisma.person.create({ data: { ...data, imageUrl } })
   })
 
   fastify.get<GerPersonsReq>("/all", { schema: GerPersonsSchema }, async ({ query }, reply) => {
