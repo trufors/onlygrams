@@ -1,16 +1,19 @@
-import { Route, Routes } from 'react-router-dom';
-import React from 'react';
-import Layout from './layout';
-import MainPage from './pages/MainPage';
-import ProfilePage from './pages/ProfilePage';
-import PromotePage from './pages/PromotePage';
-import OffersPage from './pages/OffersPage';
-import PaymentPage from './pages/PaymentPage';
-import ProfiPage from './pages/ProfiPage';
-import TasksForm from './pages/ProfiPage/components/TasksForm';
-import ThanksForm from './pages/ProfiPage/components/ThanksForm';
+import { Route, Routes } from "react-router-dom"
+import React from "react"
+import Layout from "./layout"
+import MainPage from "./pages/MainPage"
+import ProfilePage from "./pages/ProfilePage"
+import PromotePage from "./pages/PromotePage"
+import OffersPage from "./pages/OffersPage"
+import PaymentPage from "./pages/PaymentPage"
+import ProfiPage from "./pages/ProfiPage"
+import TasksForm from "./pages/ProfiPage/components/TasksForm"
+import ThanksForm from "./pages/ProfiPage/components/ThanksForm"
+import axios from "axios"
 
 const App: React.FC = () => {
+  // {/* <img src="api/file/1662217996374heic1806b_1.jpg" /> */}
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
@@ -24,7 +27,7 @@ const App: React.FC = () => {
         <Route path="/thanks" element={<ThanksForm />} />
       </Route>
     </Routes>
-  );
-};
+  )
+}
 
-export default App;
+export default App
