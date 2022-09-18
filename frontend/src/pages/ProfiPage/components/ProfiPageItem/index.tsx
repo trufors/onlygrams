@@ -13,7 +13,7 @@ const ProfiPageItem: React.FC<TasksInputs> = ({
 }) => {
   return (
     <>
-      <a href={`t.me/${telegramLink}`} className={`${classes.item} profile-list-item`}>
+      <a href={`https://t.me/${telegramLink}`} className={`${classes.item} profile-list-item`}>
         <div className={`${classes.block} profile-list-item__block`}>
           <div className="profile-list-item__name">
             <br />
