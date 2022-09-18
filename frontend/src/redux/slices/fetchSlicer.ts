@@ -36,8 +36,8 @@ export const fetchGirlsItems = createAsyncThunk(
   "fetch/fetchGirlsItems",
   async (obj: FetchSearch, thunkAPI) => {
     try {
-      const searchModels = obj.searchValue ? `title=${obj.searchValue}` : ""
-      const response = await axios.get<GirlItem[]>("api/person/all")
+      const params = obj.searchValue ? { title: obj.searchValue.toLowerCase() } : {}
+      const response = await axios.get<GirlItem[]>("api/person/all", {params })
 
       return response.data
     } catch (e) {

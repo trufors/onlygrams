@@ -19,9 +19,7 @@ const MainPage: React.FC = () => {
 
   React.useEffect(() => {
     dispatch(fetchGirlsItems({ currentPage, searchValue }))
-    return () => {
-      dispatch(setComponentDidMount({ currentPage: 1, searchValue: "" }))
-    }
+
   }, [currentPage, searchValue])
 
   return (
