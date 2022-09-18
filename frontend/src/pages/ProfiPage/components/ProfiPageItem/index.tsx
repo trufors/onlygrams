@@ -3,19 +3,27 @@ import { Link } from 'react-router-dom';
 import classes from './ProfiPageItem.module.css';
 
 import { TasksInputs } from '../../../../redux/slices/profiSlicer';
-const ProfiPageItem: React.FC<TasksInputs> = ({}) => {
+const ProfiPageItem: React.FC<TasksInputs> = ({
+  telegramLink,
+  subscribersCount,
+  category,
+  price,
+  description,
+  image,
+}) => {
   return (
     <>
-      <Link to={`/`} className={`${classes.item} profile-list-item`}>
+      <a href={`t.me/${telegramLink}`} className={`${classes.item} profile-list-item`}>
         <div className={`${classes.block} profile-list-item__block`}>
           <div className="profile-list-item__name">
-            
             <br />
-            предпочтительный способ связи
+            {category}
+            <br />
+            {price}//{subscribersCount}
           </div>
-          <div className="profile-list-item__text">Здесь будет описание</div>
+          <div className="profile-list-item__text">{description}</div>
         </div>
-      </Link>
+      </a>
     </>
   );
 };

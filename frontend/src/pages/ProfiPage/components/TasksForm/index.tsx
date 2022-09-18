@@ -2,8 +2,13 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../../../hooks/store';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { TasksInputs, setTasksData } from '../../../../redux/slices/profiSlicer';
+import { TasksInputs, setTasksData, SaveTasksPayload } from '../../../../redux/slices/profiSlicer';
 import classes from './TasksForm.module.css';
+import axios from 'axios';
+
+type SavePayload = {
+  task: SaveTasksPayload;
+};
 
 const TasksForm: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -11,15 +16,37 @@ const TasksForm: React.FC = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
-  } = useForm<TasksInputs>({ mode: 'onBlur' });
+  } = useForm<SaveTasksPayload>({ mode: 'onBlur' });
 
   const navigate = useNavigate();
 
-  const onSubmit: SubmitHandler<TasksInputs> = (data) => {
+  const onSubmit: SubmitHandler<SaveTasksPayload> = async (data) => {
     dispatch(setTasksData(data));
-    console.log(data);
+    await axios
+      .post('/api/file/upload', data.image, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then((res) => res.data)
+      .then(({ filename }) => {
+        const payload: SavePayload = {
+          task: {
+            telegramLink: data.telegramLink,
+            subscribersCount: data.subscribersCount,
+            category: data.category.toUpperCase(),
+            price: data.price,
+            description: data.description,
+            image: filename,
+          },
+        };
+
+        axios.post<SaveTasksPayload>('api/task', payload);
+      });
+
     navigate('/thanks');
   };
+
   return (
     <>
       <div className="promoting-start">
@@ -30,40 +57,19 @@ const TasksForm: React.FC = () => {
         <div className="promoting-start__form">
           <div className="form-one">
             <form onSubmit={handleSubmit(onSubmit)}>
-              {/* <div className="form-one__line">
-                <input
-                  className="form-one__input form-one__input_set "
-                  placeholder="E-mail"
-                  {...register('email', {
-                    required: 'Email is required field!',
-                    pattern: {
-                      value:
-                        /^((([0-9A-Za-z]{1}[-0-9A-z.]{1,}[0-9A-Za-z]{1})|([0-9А-Яа-я]{1}[-0-9А-я.]{1,}[0-9А-Яа-я]{1}))@([-A-Za-z]{1,}.){1,2}[-A-Za-z]{2,})$/u,
-                      message: 'ooops, uncorrect e-mail format',
-                    },
-                  })}
-                />
-                {errors?.email && (
-                  <div className="form-one__error">
-                    ooops, uncorrect e-mail format{' '}
-                    <span className="form-one__error-small">(for ex. onlygram@gmail.com)</span>
-                  </div>
-                )}
-              </div> */}
-
               <div className="form-one__line">
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="Your telegram userName"
-                  {...register('tg', {
-                    required: 'tg',
+                  {...register('telegramLink', {
+                    required: 'telegramLink',
                     minLength: {
                       value: 5,
                       message: 'ooops, uncorrect tg format',
                     },
                   })}
                 />
-                {errors?.tg && (
+                {errors?.telegramLink && (
                   <div className="form-one__error">
                     ooops, uncorrect telegram userName format
                     <span className="form-one__error-small">(for ex. profile without @)</span>
@@ -82,7 +88,7 @@ const TasksForm: React.FC = () => {
                     },
                   })}
                 />
-                {errors?.tg && (
+                {errors?.price && (
                   <div className="form-one__error">
                     ooops, uncorrect uncorrect price format
                     <span className="form-one__error-small">(for ex. profile without @)</span>
@@ -93,18 +99,18 @@ const TasksForm: React.FC = () => {
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="Your number of subscribersgit"
-                  {...register('sub', {
-                    required: 'sub',
+                  {...register('subscribersCount', {
+                    required: 'subscribersCount',
                     minLength: {
-                      value: 14,
+                      value: 1,
                       message: 'ooops, uncorrect subscribers format',
                     },
                   })}
                 />
-                {errors?.tg && (
+                {errors?.subscribersCount && (
                   <div className="form-one__error">
                     ooops, uncorrect subscribers format
-                    <span className="form-one__error-small">(for ex. 370k subscribers)</span>
+                    <span className="form-one__error-small">(for ex. 370)</span>
                   </div>
                 )}
               </div>
@@ -112,15 +118,15 @@ const TasksForm: React.FC = () => {
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="Your description"
-                  {...register('descr', {
-                    required: 'descr',
+                  {...register('description', {
+                    required: 'description',
                     minLength: {
                       value: 10,
                       message: 'ooops, minimal length 10 symbols',
                     },
                   })}
                 />
-                {errors?.descr && (
+                {errors?.description && (
                   <div className="form-one__error">ooops, minimal length 10 symbols</div>
                 )}
               </div>
@@ -129,7 +135,7 @@ const TasksForm: React.FC = () => {
                   type="file"
                   className="form-one__input form-one__input_set "
                   placeholder="Upload your photo here"
-                  {...register('file')}
+                  {...register('image')}
                 />
               </div>
 

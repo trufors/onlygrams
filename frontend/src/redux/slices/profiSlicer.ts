@@ -6,11 +6,19 @@ import axios from 'axios';
 export const TASKS_PER_PAGE: number = 8;
 
 export interface TasksInputs {
-  sub: string;
-  tg: string;
-  descr: string;
+  subscribersCount: number;
+  telegramLink: string;
+  description: string;
   category: string;
-  file: any;
+  image: string;
+  price: string;
+}
+export interface SaveTasksPayload {
+  description: string;
+  image: any;
+  telegramLink: string;
+  subscribersCount: number;
+  category: string;
   price: string;
 }
 export interface FetchTasks {
@@ -23,7 +31,7 @@ interface ProfiState {
   activeCategory: string;
   statusLoading: boolean;
   currentPage: number;
-  data: TasksInputs;
+  data: SaveTasksPayload;
 }
 
 // export const Category: {
@@ -73,12 +81,12 @@ const initialState: ProfiState = {
   currentPage: 1,
   activeCategory: 'all',
   data: {
-    price: '',
-    sub: '',
-    tg: '',
-    descr: '',
+    subscribersCount: 0,
+    telegramLink: '',
+    description: '',
     category: '',
-    file: '',
+    image: null,
+    price: '',
   },
 };
 
@@ -90,7 +98,7 @@ export const fetchSlicer = createSlice({
     setCurrentPage(state, action: PayloadAction<number>) {
       state.currentPage = action.payload;
     },
-    setTasksData(state, action: PayloadAction<TasksInputs>) {
+    setTasksData(state, action: PayloadAction<SaveTasksPayload>) {
       state.data = action.payload;
     },
     setActiveCategory(state, action: PayloadAction<string>) {

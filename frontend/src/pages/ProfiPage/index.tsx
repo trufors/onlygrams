@@ -1,12 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { fetchTasksItems, setCurrentPage } from '../../redux/slices/profiSlicer';
+import { fetchTasksItems, setCurrentPage, TASKS_PER_PAGE } from '../../redux/slices/profiSlicer';
+import Skeleton from '../MainPage/components/Skeleton';
+import ProfiPageItem from './components/ProfiPageItem';
+import TasksForm from './components/TasksForm';
 import classes from './ProfiPage.module.css';
 
 const ProfiPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { currentPage, activeCategory } = useAppSelector((state) => state.profi);
+  const { currentPage, activeCategory, statusLoading, tasks } = useAppSelector(
+    (state) => state.profi,
+  );
+  const total = useAppSelector((state) => state.profi.total);
 
   const category: { label: string; value: string }[] = [
     { label: 'All', value: 'all' },
@@ -27,7 +33,10 @@ const ProfiPage: React.FC = () => {
       {label}
     </a>
   ));
-  const pages = [4, 3, 2, 1];
+  const pages = new Array(total ? Math.ceil(total / TASKS_PER_PAGE) : 1)
+    .fill(null)
+    .map((_, index) => index + 1);
+
   return (
     <>
       <div className="search-user-panel">
@@ -65,76 +74,9 @@ const ProfiPage: React.FC = () => {
         </div>
 
         <div className="profile-list">
-          <Link to={`/`} className={`${classes.item} profile-list-item`}>
-            <div className={`${classes.block} profile-list-item__block`}>
-              <div className="profile-list-item__name">
-                Снять порно
-                <br />
-                предпочтительный способ связи
-              </div>
-              <div className="profile-list-item__text">Здесь будет описание</div>
-            </div>
-          </Link>
-          <Link to={`/`} className={`${classes.item} profile-list-item`}>
-            <div className={`${classes.block} profile-list-item__block`}>
-              <div className="profile-list-item__name">
-                Снять порно
-                <br />
-                предпочтительный способ связи
-              </div>
-              <div className="profile-list-item__text">Здесь будет описание</div>
-            </div>
-          </Link>
-          <Link to={`/`} className={`${classes.item} profile-list-item`}>
-            <div className={`${classes.block} profile-list-item__block`}>
-              <div className="profile-list-item__name">
-                Снять порно
-                <br />
-                предпочтительный способ связи
-              </div>
-              <div className="profile-list-item__text">Здесь будет описание</div>
-            </div>
-          </Link>
-          <Link to={`/`} className={`${classes.item} profile-list-item`}>
-            <div className={`${classes.block} profile-list-item__block`}>
-              <div className="profile-list-item__name">
-                Снять порно
-                <br />
-                предпочтительный способ связи
-              </div>
-              <div className="profile-list-item__text">Здесь будет описание</div>
-            </div>
-          </Link>
-          <Link to={`/`} className={`${classes.item} profile-list-item`}>
-            <div className={`${classes.block} profile-list-item__block`}>
-              <div className="profile-list-item__name">
-                Снять порно
-                <br />
-                предпочтительный способ связи
-              </div>
-              <div className="profile-list-item__text">Здесь будет описание</div>
-            </div>
-          </Link>
-          <Link to={`/`} className={`${classes.item} profile-list-item`}>
-            <div className={`${classes.block} profile-list-item__block`}>
-              <div className="profile-list-item__name">
-                Снять порно
-                <br />
-                предпочтительный способ связи
-              </div>
-              <div className="profile-list-item__text">Здесь будет описание</div>
-            </div>
-          </Link>
-          <Link to={`/`} className={`${classes.item} profile-list-item`}>
-            <div className={`${classes.block} profile-list-item__block`}>
-              <div className="profile-list-item__name">
-                Снять порно
-                <br />
-                предпочтительный способ связи
-              </div>
-              <div className="profile-list-item__text">Здесь будет описание</div>
-            </div>
-          </Link>
+          {statusLoading
+            ? tasks.map((item) => <ProfiPageItem {...item} />)
+            : [...new Array<number>(8)].map((i) => <Skeleton />)}
         </div>
       </div>
     </>
