@@ -1,7 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { fetchTasksItems, setCurrentPage, TASKS_PER_PAGE } from '../../redux/slices/profiSlicer';
+import {
+  changeTasksPage,
+  fetchTasksItems,
+  setCurrentPage,
+  TASKS_PER_PAGE,
+} from '../../redux/slices/profiSlicer';
 import Skeleton from '../MainPage/components/Skeleton';
 import ProfiPageItem from './components/ProfiPageItem';
 import TasksForm from './components/TasksForm';
@@ -62,13 +67,13 @@ const ProfiPage: React.FC = () => {
       <div className="content-wrapper">
         <div className={`tag-items`}>
           {categoryArray}
-          {pages.map((p) => (
+          {pages.map((page) => (
             <span
-              onClick={(e) => dispatch(setCurrentPage(p))}
+              onClick={(e) => dispatch(changeTasksPage({ page }))}
               className={`tag-item tag-item_all ${classes.page} ${
-                currentPage !== Number(p) ? '' : 'tag-item_active'
+                currentPage !== Number(page) ? '' : 'tag-item_active'
               }`}>
-              {p}
+              {page}
             </span>
           ))}
         </div>

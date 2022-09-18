@@ -2,6 +2,7 @@ import type { RootState } from '../store';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import { ChangePagePayload } from './fetchSlicer';
 
 export const TASKS_PER_PAGE: number = 8;
 
@@ -34,14 +35,6 @@ interface ProfiState {
   data: SaveTasksPayload;
 }
 
-// export const Category: {
-//   FILM: 'FILM',
-//   PROMO: 'PROMO',
-//   PHOTO: 'PHOTO',
-//   ESCORT: 'ESCORT',
-//   OTHER: 'OTHER'
-// };
-
 type FetchTasksReply = {
   tasks: TasksInputs[];
   total: number;
@@ -69,6 +62,32 @@ export const fetchTasksItems = createAsyncThunk(
       return response.data;
     } catch (e) {
       return thunkAPI.rejectWithValue('не удалось получить тacочки');
+    }
+  },
+);
+
+export const changeTasksPage = createAsyncThunk(
+  'profi/changeTasksPage',
+  async (obj: ChangePagePayload, thunkAPI) => {
+    try {
+      const page: number = (thunkAPI.getState() as RootState).profi.currentPage;
+      const category: string = (
+        thunkAPI.getState() as RootState
+      ).profi.activeCategory.toUpperCase();
+
+      const params = {
+        category: category !== 'ALL' ? category : undefined,
+        take: TASKS_PER_PAGE,
+        skip: TASKS_PER_PAGE * (obj.page - 1),
+      };
+
+      const response = await axios.get<{ persons: TasksInputs[]; total: number }>('api/task/all', {
+        params,
+      });
+
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue('не удалось получить телочек');
     }
   },
 );
@@ -116,6 +135,13 @@ export const fetchSlicer = createSlice({
       state.statusLoading = true;
     },
     [fetchTasksItems.rejected.type]: (state) => {},
+    [changeTasksPage.pending.type]: (state) => {
+      state.statusLoading = false;
+    },
+    [changeTasksPage.fulfilled.type]: (state, action: PayloadAction<FetchTasksReply>) => {
+      state.tasks = action.payload.tasks;
+      state.statusLoading = true;
+    },
   },
 });
 
