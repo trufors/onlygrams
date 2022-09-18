@@ -16,6 +16,9 @@ const ProfiPage: React.FC = () => {
     { label: 'Promo', value: 'Promo' },
     { label: 'Other', value: 'Other' },
   ];
+  React.useEffect(() => {
+    dispatch(fetchTasksItems({ activeCategory }));
+  }, []);
 
   const categoryArray = category.map(({ label, value }) => (
     <a

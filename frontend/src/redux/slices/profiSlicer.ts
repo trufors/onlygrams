@@ -56,7 +56,7 @@ export const fetchTasksItems = createAsyncThunk(
         skip: TASKS_PER_PAGE * (page - 1),
       };
 
-      const response = await axios.get<FetchTasksReply>('api/tasks/all', { params });
+      const response = await axios.get<FetchTasksReply>('api/task/all', { params });
 
       return response.data;
     } catch (e) {
@@ -71,7 +71,7 @@ const initialState: ProfiState = {
   tasks: [],
   statusLoading: false,
   currentPage: 1,
-  activeCategory: 'All',
+  activeCategory: 'all',
   data: {
     price: '',
     sub: '',
@@ -98,9 +98,9 @@ export const fetchSlicer = createSlice({
     },
   },
   extraReducers: {
-    [fetchTasksItems.pending.type]: (state, action: PayloadAction<FetchSearch>) => {
+    [fetchTasksItems.pending.type]: (state, action: { meta: { arg: FetchSearch } }) => {
       state.statusLoading = false;
-      state.activeCategory = action.payload.activeCategory || 'all';
+      state.activeCategory = action.meta.arg.activeCategory || 'all';
     },
     [fetchTasksItems.fulfilled.type]: (state, action: PayloadAction<FetchTasksReply>) => {
       state.tasks = action.payload.tasks;
