@@ -4,7 +4,8 @@ import { Static, Type } from "@sinclair/typebox"
 
 const GetPersonsQuery = Type.Object({
   take: Type.Optional(Type.Number()),
-  skip: Type.Optional(Type.Number())
+  skip: Type.Optional(Type.Number()),
+  title: Type.Optional(Type.String())
 })
 
 export type GetPersonsQuery = Static<typeof GetPersonsQuery>

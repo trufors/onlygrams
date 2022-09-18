@@ -42,4 +42,4 @@ Thumbs.db
 docker.env
 .env
 dist
-uploads
+uploads/
