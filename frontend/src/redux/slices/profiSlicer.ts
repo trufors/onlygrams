@@ -3,7 +3,8 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-// Define a type for the slice state
+export const TASKS_PER_PAGE: number = 8;
+
 export interface TasksInputs {
   sub: string;
   tg: string;
@@ -12,38 +13,65 @@ export interface TasksInputs {
   file: any;
   price: string;
 }
-interface ProfiState {
-  tasks: TasksInputs[];
-  statusLoading: boolean;
-  currentPage: number;
-  data: TasksInputs;
-}
 export interface FetchTasks {
   category: string;
   limit: number;
 }
+interface ProfiState {
+  total: number;
+  tasks: TasksInputs[];
+  activeCategory: string;
+  statusLoading: boolean;
+  currentPage: number;
+  data: TasksInputs;
+}
+
+// export const Category: {
+//   FILM: 'FILM',
+//   PROMO: 'PROMO',
+//   PHOTO: 'PHOTO',
+//   ESCORT: 'ESCORT',
+//   OTHER: 'OTHER'
+// };
+
+type FetchTasksReply = {
+  tasks: TasksInputs[];
+  total: number;
+};
+type FetchSearch = {
+  activeCategory?: string;
+};
 export const fetchTasksItems = createAsyncThunk(
   'profi/fetchTasksItems',
-  async (obj: FetchTasks, thunkAPI) => {
+  async (obj: FetchSearch, thunkAPI) => {
     try {
-      const response = await axios.get<TasksInputs[]>(
-        `https://62ebbb5255d2bd170e74e421.mockapi.io`,
-        {
-          params: { category: obj.category, limit: 8 },
-        },
-      );
+      const page: number = (thunkAPI.getState() as RootState).profi.currentPage;
+      const category: string = (
+        thunkAPI.getState() as RootState
+      ).profi.activeCategory.toUpperCase();
+
+      const params = {
+        category: category !== 'ALL' ? category : undefined,
+        take: TASKS_PER_PAGE,
+        skip: TASKS_PER_PAGE * (page - 1),
+      };
+
+      const response = await axios.get<FetchTasksReply>('api/tasks/all', { params });
+
       return response.data;
     } catch (e) {
-      return thunkAPI.rejectWithValue('не удалось получить задания на порно');
+      return thunkAPI.rejectWithValue('не удалось получить тacочки');
     }
   },
 );
 
 // Define the initial state using that type
 const initialState: ProfiState = {
+  total: 0,
   tasks: [],
   statusLoading: false,
   currentPage: 1,
+  activeCategory: 'All',
   data: {
     price: '',
     sub: '',
@@ -65,20 +93,24 @@ export const fetchSlicer = createSlice({
     setTasksData(state, action: PayloadAction<TasksInputs>) {
       state.data = action.payload;
     },
-    
+    setActiveCategory(state, action: PayloadAction<string>) {
+      state.activeCategory = action.payload;
+    },
   },
   extraReducers: {
-    [fetchTasksItems.pending.type]: (state) => {
+    [fetchTasksItems.pending.type]: (state, action: PayloadAction<FetchSearch>) => {
       state.statusLoading = false;
+      state.activeCategory = action.payload.activeCategory || 'all';
     },
-    [fetchTasksItems.fulfilled.type]: (state, action: PayloadAction<TasksInputs[]>) => {
-      state.tasks = action.payload;
+    [fetchTasksItems.fulfilled.type]: (state, action: PayloadAction<FetchTasksReply>) => {
+      state.tasks = action.payload.tasks;
+      state.total = action.payload.total;
       state.statusLoading = true;
     },
     [fetchTasksItems.rejected.type]: (state) => {},
   },
 });
 
-export const { setCurrentPage, setTasksData } = fetchSlicer.actions;
+export const { setCurrentPage, setTasksData, setActiveCategory } = fetchSlicer.actions;
 
 export default fetchSlicer.reducer;
