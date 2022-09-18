@@ -19,7 +19,9 @@ const personRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> =>
         where: { name: { contains: query.title, mode: "insensitive" } },
         orderBy: { createdAt: "desc" }
       }),
-      total: await fastify.prisma.person.count()
+      total: await fastify.prisma.person.count({
+        where: { name: { contains: query.title, mode: "insensitive" } }
+      })
     }
   })
 }
