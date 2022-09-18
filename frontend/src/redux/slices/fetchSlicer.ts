@@ -3,15 +3,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import type { PayloadAction } from "@reduxjs/toolkit"
 import axios from "axios"
 
+export const ITEMS_PER_PAGE = 8
+
 // Define a type for the slice state
 interface FetchState {
   items: GirlItem[]
   statusLoading: boolean
   girl: GirlItem | undefined
   statusLoadingProfile: boolean
-  searchValue: string
-  categoryTag: string
+  searchValue?: string
+  categoryTag: string 
   currentPage: number
+  total: number
 }
 export interface GirlItem {
   id: number
@@ -28,16 +31,52 @@ export interface GirlItem {
 }
 
 export interface FetchSearch {
-  currentPage: number
-  searchValue: string
+  searchValue?: string
+}
+
+type FetchGirlsReply = {
+  persons:GirlItem[], total: number
 }
 
 export const fetchGirlsItems = createAsyncThunk(
   "fetch/fetchGirlsItems",
   async (obj: FetchSearch, thunkAPI) => {
     try {
-      const params = obj.searchValue ? { title: obj.searchValue.toLowerCase() } : {}
-      const response = await axios.get<GirlItem[]>("api/person/all", {params })
+      const page: number = (thunkAPI.getState() as RootState).fetch.currentPage
+
+      const params = {
+        title: obj?.searchValue ? obj.searchValue.toLowerCase() : undefined,
+        take: ITEMS_PER_PAGE,
+        skip: ITEMS_PER_PAGE * (page - 1)
+      }
+
+      const response = await axios.get<FetchGirlsReply>("api/person/all", { params })
+
+      return response.data
+    } catch (e) {
+      return thunkAPI.rejectWithValue("не удалось получить телочек")
+    }
+  }
+)
+
+export type ChangePagePayload = {
+  page: number
+}
+
+export const changePage = createAsyncThunk(
+  "fetch/changePage",
+  async (obj: ChangePagePayload, thunkAPI) => {
+    try {
+      console.log(obj)
+      const search: string = (thunkAPI.getState() as RootState).fetch.searchValue || ''
+
+      const params = {
+        title: search.toLowerCase(),
+        take: ITEMS_PER_PAGE,
+        skip: ITEMS_PER_PAGE * (obj.page - 1)
+      }
+
+      const response = await axios.get<{persons:GirlItem[], total: number}>("api/person/all", { params })
 
       return response.data
     } catch (e) {
@@ -54,7 +93,8 @@ const initialState: FetchState = {
   statusLoadingProfile: false,
   searchValue: "",
   categoryTag: "New",
-  currentPage: 1
+  currentPage: 1,
+  total: 0
 }
 
 export const fetchSlicer = createSlice({
@@ -76,21 +116,24 @@ export const fetchSlicer = createSlice({
     },
     setStatusLoading(state, action: PayloadAction<boolean>) {
       state.statusLoading = action.payload
-    },
-    setComponentDidMount(state, action: PayloadAction<FetchSearch>) {
-      state.currentPage = action.payload.currentPage
-      state.searchValue = action.payload.searchValue
     }
   },
   extraReducers: {
     [fetchGirlsItems.pending.type]: (state) => {
       state.statusLoading = false
     },
-    [fetchGirlsItems.fulfilled.type]: (state, action: PayloadAction<GirlItem[]>) => {
-      state.items = action.payload
+    [fetchGirlsItems.fulfilled.type]: (state, action: PayloadAction<FetchGirlsReply>) => {
+      state.items = action.payload.persons
+      state.total = action.payload.total
       state.statusLoading = true
     },
-    [fetchGirlsItems.rejected.type]: (state) => {}
+    [fetchGirlsItems.rejected.type]: (state) => {},
+
+    [changePage.fulfilled.type]: (state, {payload}: PayloadAction<FetchGirlsReply>) => {
+      state.items = payload.persons
+      state.total = payload.total
+      state.statusLoading = true
+    },
   }
 })
 
@@ -100,7 +143,6 @@ export const {
   setPage,
   setSearchValue,
   setCategoryTag,
-  setComponentDidMount
 } = fetchSlicer.actions
 
 export default fetchSlicer.reducer

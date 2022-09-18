@@ -6,7 +6,6 @@ import {
   setStatusLoading,
   GirlItem,
   fetchGirlsItems,
-  setComponentDidMount
 } from "../../redux/slices/fetchSlicer"
 import MainPageItem from "./components/MainPageItem"
 import Skeleton from "./components/Skeleton"
@@ -15,12 +14,12 @@ import axios from "axios"
 
 const MainPage: React.FC = () => {
   const dispatch = useAppDispatch()
-  const { statusLoading, searchValue, currentPage, items } = useAppSelector((state) => state.fetch)
+  const { statusLoading, searchValue, items } = useAppSelector((state) => state.fetch)
 
   React.useEffect(() => {
-    dispatch(fetchGirlsItems({ currentPage, searchValue }))
+    dispatch(fetchGirlsItems({ searchValue }))
 
-  }, [currentPage, searchValue])
+  }, [searchValue])
 
   return (
     <>
