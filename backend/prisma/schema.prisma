@@ -19,3 +19,22 @@ model Person {
   name        String
   links       Json?
 }
+
+model Task {
+  id               Int      @id @default(autoincrement())
+  createdAt        DateTime @default(now())
+  description      String
+  telegramLink     String
+  subscribersCount Int      @default(0)
+  imageUrl         String
+  category         Category
+  price            String
+}
+
+enum Category {
+  FILM
+  PROMO
+  PHOTO
+  ESCORT
+  OTHER
+}
