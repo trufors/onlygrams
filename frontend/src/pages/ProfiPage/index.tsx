@@ -1,22 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/store';
-import { setCurrentPage } from '../../redux/slices/profiSlicer';
+import { fetchTasksItems, setCurrentPage } from '../../redux/slices/profiSlicer';
 import classes from './ProfiPage.module.css';
 
 const ProfiPage: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { currentPage } = useAppSelector((state) => state.profi);
-  const [activeCategory, setActiveCategory] = React.useState<string>('All');
+  const { currentPage, activeCategory } = useAppSelector((state) => state.profi);
 
-  const category: string[] = ['All', 'Porn', 'Photo', 'Escort', 'Make a video', 'Other'];
-  const categoryArray = category.map((categ) => (
+  const category: { label: string; value: string }[] = [
+    { label: 'All', value: 'all' },
+    { label: 'Photo', value: 'photo' },
+    { label: 'Escort', value: 'Escort' },
+    { label: 'Make a video', value: 'film' },
+    { label: 'Promo', value: 'Promo' },
+    { label: 'Other', value: 'Other' },
+  ];
+
+  const categoryArray = category.map(({ label, value }) => (
     <a
-      onClick={() => {
-        setActiveCategory(categ);
-      }}
-      className={`tag-item ${categ === activeCategory ? 'tag-item_active' : ''}`}>
-      {categ}
+      onClick={() => dispatch(fetchTasksItems({ activeCategory: value }))}
+      className={`tag-item ${value === activeCategory ? 'tag-item_active' : ''}`}>
+      {label}
     </a>
   ));
   const pages = [4, 3, 2, 1];

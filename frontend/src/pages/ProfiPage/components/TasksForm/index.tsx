@@ -92,7 +92,7 @@ const TasksForm: React.FC = () => {
               <div className="form-one__line">
                 <input
                   className="form-one__input form-one__input_set "
-                  placeholder="Your number of subscribers"
+                  placeholder="Your number of subscribersgit"
                   {...register('sub', {
                     required: 'sub',
                     minLength: {
