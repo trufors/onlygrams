@@ -15,7 +15,7 @@ const personRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> =>
     return fastify.prisma.person.findMany({
       take: query.take || 100,
       skip: query.skip,
-      where: { name: { contains: query.title } }
+      where: { name: { contains: query.title, mode: "insensitive" } }
     })
   })
 }
