@@ -1,17 +1,62 @@
-version: "3"
+version: '3'
 services:
+  frontend:
+    build: ./frontend
+    container_name: onlygrams-frontend
+    command: npm run preview
+    restart: unless-stopped
+    networks:
+      - onlygrams-network
+    depends_on:
+      - postgres
+      - backend
+
+  backend:
+    stdin_open: true
+    build: ./backend
+    container_name: onlygrams-backend
+    command: npm run start
+    restart: unless-stopped
+    networks:
+      - onlygrams-network
+    environment:
+      - FASTIFY_PORT=4000
+      - DATABASE_URL=postgresql://admin:admin@postgres:5432/onlygrams?schema=public
+    depends_on:
+      - postgres
+
   postgres:
     container_name: postgres-onlygram
     image: postgres:latest
+    hostname: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
-      - /data/postgres:/data/postgres
-    env_file:
-      - docker.env
+      - postgres_backend:/data/db
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=onlygrams
     networks:
+      - onlygrams-network
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: onlygrams-nginx
+    ports:
+      - '80:80'
+    volumes:
+      - ./nginx/nginx.conf.prod:/etc/nginx/conf.d/nginx.conf
+    depends_on:
       - postgres
+      - backend
+      - frontend
+    networks:
+      - onlygrams-network
+
+volumes:
+  postgres_backend:
 
 networks:
-  postgres:
+  onlygrams-network:
     driver: bridge
