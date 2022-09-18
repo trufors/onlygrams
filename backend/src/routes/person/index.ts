@@ -12,12 +12,15 @@ const personRoutes: FastifyPluginAsync = async (fastify, opts): Promise<void> =>
   })
 
   fastify.get<GerPersonsReq>("/all", { schema: GerPersonsSchema }, async ({ query }, reply) => {
-    return fastify.prisma.person.findMany({
-      take: query.take || 100,
-      skip: query.skip,
-      where: { name: { contains: query.title, mode: "insensitive" } },
-      orderBy: { createdAt: "desc" }
-    })
+    return {
+      persons: await fastify.prisma.person.findMany({
+        take: query.take || 100,
+        skip: query.skip,
+        where: { name: { contains: query.title, mode: "insensitive" } },
+        orderBy: { createdAt: "desc" }
+      }),
+      total: await fastify.prisma.person.count()
+    }
   })
 }
 
