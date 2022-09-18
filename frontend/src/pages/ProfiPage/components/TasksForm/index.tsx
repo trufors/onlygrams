@@ -30,7 +30,7 @@ const TasksForm: React.FC = () => {
         <div className="promoting-start__form">
           <div className="form-one">
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="form-one__line">
+              {/* <div className="form-one__line">
                 <input
                   className="form-one__input form-one__input_set "
                   placeholder="E-mail"
@@ -49,7 +49,7 @@ const TasksForm: React.FC = () => {
                     <span className="form-one__error-small">(for ex. onlygram@gmail.com)</span>
                   </div>
                 )}
-              </div>
+              </div> */}
 
               <div className="form-one__line">
                 <input
@@ -66,7 +66,45 @@ const TasksForm: React.FC = () => {
                 {errors?.tg && (
                   <div className="form-one__error">
                     ooops, uncorrect telegram userName format
-                    <span className="form-one__error-small">(for ex. @profile)</span>
+                    <span className="form-one__error-small">(for ex. profile without @)</span>
+                  </div>
+                )}
+              </div>
+              <div className="form-one__line">
+                <input
+                  className="form-one__input form-one__input_set "
+                  placeholder="Your price"
+                  {...register('price', {
+                    required: 'price',
+                    minLength: {
+                      value: 1,
+                      message: 'ooops, uncorrect price format',
+                    },
+                  })}
+                />
+                {errors?.tg && (
+                  <div className="form-one__error">
+                    ooops, uncorrect uncorrect price format
+                    <span className="form-one__error-small">(for ex. profile without @)</span>
+                  </div>
+                )}
+              </div>
+              <div className="form-one__line">
+                <input
+                  className="form-one__input form-one__input_set "
+                  placeholder="Your number of subscribers"
+                  {...register('sub', {
+                    required: 'sub',
+                    minLength: {
+                      value: 14,
+                      message: 'ooops, uncorrect subscribers format',
+                    },
+                  })}
+                />
+                {errors?.tg && (
+                  <div className="form-one__error">
+                    ooops, uncorrect subscribers format
+                    <span className="form-one__error-small">(for ex. 370k subscribers)</span>
                   </div>
                 )}
               </div>
@@ -97,8 +135,8 @@ const TasksForm: React.FC = () => {
 
               <div className="form-one__line">
                 <select className={classes.select} {...register('category')}>
-                  <option value="Porno">Porn</option>
-                  <option value="Make a film">Make a Film</option>
+                  <option value="Promo">Promo</option>
+                  <option value="Make a film">Make a film</option>
                   <option value="Photo">Photo</option>
                   <option selected value="Escort">
                     Escort

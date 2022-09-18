@@ -5,11 +5,12 @@ import axios from 'axios';
 
 // Define a type for the slice state
 export interface TasksInputs {
-  email: string;
+  sub: string;
   tg: string;
   descr: string;
   category: string;
   file: any;
+  price: string;
 }
 interface ProfiState {
   tasks: TasksInputs[];
@@ -44,7 +45,8 @@ const initialState: ProfiState = {
   statusLoading: false,
   currentPage: 1,
   data: {
-    email: '',
+    price: '',
+    sub: '',
     tg: '',
     descr: '',
     category: '',
@@ -63,6 +65,7 @@ export const fetchSlicer = createSlice({
     setTasksData(state, action: PayloadAction<TasksInputs>) {
       state.data = action.payload;
     },
+    
   },
   extraReducers: {
     [fetchTasksItems.pending.type]: (state) => {
